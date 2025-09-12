@@ -1,0 +1,79 @@
+# ===================================================================
+# File dan Folder Dependensi Composer
+# ===================================================================
+# Direktori vendor berisi semua paket pihak ketiga.
+# Ini harus diinstal ulang via `composer install` di setiap lingkungan.
+/vendor/
+
+# File lock Composer, biarkan jika tim Anda menggunakan versi PHP yang sama persis.
+# Abaikan jika anggota tim mungkin menggunakan versi patch PHP yang berbeda.
+# composer.lock
+
+
+# ===================================================================
+# File Konfigurasi Lokal & Sensitif
+# ===================================================================
+# File environment yang berisi kredensial database, API key, dll.
+# SANGAT PENTING untuk diabaikan agar tidak bocor ke repository.
+.env
+.env.local
+.env.*.local
+
+# Jangan pernah meng-commit file environment contoh jika berisi data sensitif.
+# .env.example
+
+
+# Abaikan folder public yang digunakan untuk menyimpan file-file yang diunggah
+# oleh pengguna, seperti gambar profil, dokumen, dll.
+# Ganti '/public/uploads/' dengan path folder unggahan Anda yang sebenarnya.
+/public/uploads/
+/public/storage/
+/storage/app/public/
+
+# File log bisa menjadi sangat besar dan tidak relevan untuk di-commit.
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# File cache yang dihasilkan oleh aplikasi atau framework.
+/storage/framework/
+/bootstrap/cache/
+/cache/
+
+# File-file yang dibuat oleh sistem operasi atau IDE (Code Editor).
+# Mereka spesifik untuk mesin masing-masing developer dan tidak relevan untuk proyek.
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE & Editor
+.idea/ # PhpStorm, WebStorm, dll.
+.vscode/ # Visual Studio Code
+*.sublime-project
+*.sublime-workspace
+nbproject/ # NetBeans
+.project # Eclipse
+
+# Abaikan direktori node_modules jika Anda menggunakan npm/yarn untuk front-end.
+/node_modules/
+
+# File build dari aset (JavaScript/CSS) jika Anda melakukan kompilasi.
+/public/build/
+/public/hot
+
+# File-file sementara atau backup yang dibuat secara lokal.
+*.tmp
+*.bak
+*.swp
+
+# Jika Anda menggunakan PHPUnit
+/phpunit.result.cache
