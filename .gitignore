@@ -36,6 +36,7 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/storage/views/
 
 # File cache yang dihasilkan oleh aplikasi atau framework.
 /storage/framework/

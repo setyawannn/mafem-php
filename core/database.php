@@ -6,15 +6,16 @@
  *
  * @return mysqli|null
  */
-function db_connect() {
+function db_connect()
+{
     static $connection = null;
 
     if ($connection === null) {
-        $host = $_ENV['DB_HOST'];
-        $user = $_ENV['DB_USERNAME'];
-        $pass = $_ENV['DB_PASSWORD'];
-        $db   = $_ENV['DB_DATABASE'];
-        $port = $_ENV['DB_PORT'];
+        $host = config('database.host');
+        $user = config('database.username');
+        $pass = config('database.password');
+        $db   = config('database.dbname');
+        $port = config('database.port');
 
         $connection = mysqli_connect($host, $user, $pass, $db, $port);
 

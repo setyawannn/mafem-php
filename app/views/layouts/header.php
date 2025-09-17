@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <title><?php echo htmlspecialchars($title ?? 'Kerangka Terstruktur'); ?></title>
-    <link rel="stylesheet" href="/css/style.css"> </head>
+    <meta charset="UTF--T">
+    <title><?= htmlspecialchars(config('app.name')); ?> - <?= htmlspecialchars($title ?? 'Selamat Datang'); ?></title>
+
+    <link rel="stylesheet" href="<?= config('app.base_url'); ?>/css/style.css">
+</head>
+
 <body>
     <header>
         <nav>
-            <a href="/">Home</a> | <a href="/about">Tentang Kami</a>
+            <a href="<?= config('app.base_url'); ?>/">Home</a> |
+            <a href="<?= config('app.base_url'); ?>/about">Tentang Kami</a> |
+            <a href="<?= config('app.base_url'); ?>/products">Produk</a>
         </nav>
     </header>
     <main>

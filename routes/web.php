@@ -5,4 +5,12 @@
 
 route_get('/', ['controllers/home_controller.php', 'index_action']);
 route_get('/about', ['controllers/home_controller.php', 'about_action']);
-route_get('/products', ['controllers/product_controller.php','products_list_action']);
+route_get('/products', ['controllers/product_controller.php', 'products_list_action']);
+
+route_get('/login', ['controllers/auth_controller.php', 'login_form_action'], 'guest');
+route_post('/login', ['controllers/auth_controller.php', 'login_process_action'], 'guest');
+
+route_get('/dashboard', ['controllers/dashboard_controller.php', 'index_action'], 'auth');
+route_get('/logout', ['controllers/auth_controller.php', 'logout_action'], 'auth');
+
+route_get('/admin/settings', ['controllers/admin_controller.php', 'settings_action'], 'admin');

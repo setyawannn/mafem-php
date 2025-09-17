@@ -7,20 +7,33 @@ $routes = [];
  * Mendaftarkan sebuah rute dengan method GET.
  *
  * @param string $uri URL yang akan dicocokkan.
- * @param string $action File controller dan fungsi yang akan dijalankan.
+ * @param array  $action File controller dan fungsi yang akan dijalankan.
+ * @param string|null $middleware Nama middleware yang akan dijalankan sebelumnya.
  */
-function route_get(string $uri, array $action) {
+function route_get(string $uri, array $action, ?string $middleware = null)
+{
     global $routes;
-    $routes['GET'][$uri] = $action;
+    $routes['GET'][$uri] = ['action' => $action, 'middleware' => $middleware];
+}
 
-    // var_dump($routes['GET'][$uri]);
-    // die();
+/**
+ * PENAMBAHAN: Mendaftarkan sebuah rute dengan method POST.
+ *
+ * @param string $uri URL yang akan dicocokkan.
+ * @param array  $action File controller dan fungsi yang akan dijalankan.
+ * @param string|null $middleware Nama middleware yang akan dijalankan sebelumnya.
+ */
+function route_post(string $uri, array $action, ?string $middleware = null)
+{
+    global $routes;
+    $routes['POST'][$uri] = ['action' => $action, 'middleware' => $middleware];
 }
 
 /**
  * Mencari rute yang cocok dan menjalankan aksi yang sesuai.
  */
-function dispatch() {
+function dispatch()
+{
     global $routes;
 
     $basePath = dirname($_SERVER['SCRIPT_NAME']);
@@ -28,35 +41,45 @@ function dispatch() {
     $uri = '/' . trim(str_replace($basePath, '', $requestUri), '/');
     $method = $_SERVER['REQUEST_METHOD'];
 
-    // var_dump("Routes", $routes);
-    // var_dump("Method", $method);
-    // var_dump("Uri", $uri);
-    // var_dump(isset($routes[$method][$uri]));
-    // die();
-
     if (isset($routes[$method][$uri])) {
-        $action = $routes[$method][$uri];
-        
-        // Memisahkan path file controller dan nama fungsi
-        // Contoh: ['controllers/home_controller.php', 'index_action']
+        $route = $routes[$method][$uri];
+        $action = $route['action'];
+        $middleware = $route['middleware'];
+
+        require_once __DIR__ . '/middleware.php';
+        run_middleware($middleware);
+
         $controllerFile = __DIR__ . '/../app/' . $action[0];
         $functionName = $action[1];
 
-        // Jika file controller ada, muat dan panggil fungsinya
         if (file_exists($controllerFile)) {
             require_once $controllerFile;
 
             if (function_exists($functionName)) {
-                // Panggil fungsi yang dituju
                 $functionName();
             } else {
-                echo "Error: Fungsi '$functionName' tidak ditemukan.";
+                error_log("Fungsi '$functionName' tidak ada di file '$controllerFile'");
+                abort_500();
             }
         } else {
-            echo "Error: File controller tidak ditemukan.";
+            error_log("File controller '$controllerFile' tidak ditemukan untuk URI '$uri'");
+            abort_500();
         }
     } else {
-        http_response_code(404);
-        echo "404 Halaman Tidak Ditemukan";
+        abort_404();
     }
+}
+
+function abort_404()
+{
+    http_response_code(404);
+    require_once __DIR__ . '/../app/views/errors/404.php';
+    exit();
+}
+
+function abort_500()
+{
+    http_response_code(500);
+    require_once __DIR__ . '/../app/views/errors/500.php';
+    exit();
 }

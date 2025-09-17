@@ -1,24 +1,32 @@
-<h1><?php echo htmlspecialchars($title); ?></h1>
+@extends('layouts.app')
 
-<?php if (empty($products)): ?>
-    <p>Tidak ada produk yang tersedia.</p>
-<?php else: ?>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama Produk</th>
-                <th>Harga</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($products as $product): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($product['id']); ?></td>
-                    <td><?php echo htmlspecialchars($product['name']); ?></td>
-                    <td>Rp <?php echo number_format($product['price']); ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php endif; ?>
+@section('title')
+Daftar Produk
+@endsection
+
+@section('content')
+<h1>{{ $title }}</h1>
+
+@if (empty($products))
+<p>Tidak ada produk yang tersedia.</p>
+@else
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nama Produk</th>
+            <th>Harga</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($products as $product)
+        <tr>
+            <td>{{ $product['id'] }}</td>
+            <td>{{ $product['name'] }}</td>
+            <td>Rp {{ number_format($product['price']) }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+@endif
+@endsection
